@@ -21,7 +21,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         String resourcePath = "foreign_names.csv";
         List<Person> people = new ArrayList<>();
-        int divisionIdSeq = 1;
+        DivisionRegistry registry = new DivisionRegistry();
 
         InputStream in = Main.class.getClassLoader().getResourceAsStream(resourcePath);
         if (in == null) {
@@ -37,13 +37,14 @@ public class Main {
                 String name = row[1].trim();
                 Gender gender = Gender.fromString(row[2]);
                 LocalDate birthDate = LocalDate.parse(row[3].trim(), DATE_FORMAT);
-                Division division = new Division(divisionIdSeq++, row[4].trim());
+                Division division = registry.getOrCreate(row[4].trim());
                 long salary = Long.parseLong(row[5].trim());
                 people.add(new Person(id, name, gender, division, salary, birthDate));
             }
         }
 
         people.forEach(System.out::println);
-        System.out.println("Total: " + people.size());
+        System.out.println("Total people: " + people.size());
+        System.out.println("Total divisions: " + registry.size());
     }
 }
