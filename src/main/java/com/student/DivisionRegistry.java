@@ -1,5 +1,6 @@
 package com.student;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,5 +21,9 @@ public class DivisionRegistry {
 
     public int size() {
         return byName.size();
+    }
+
+    public Collection<Division> all() {
+        return byName.values();
     }
 }
