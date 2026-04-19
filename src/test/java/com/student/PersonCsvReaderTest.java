@@ -37,4 +37,11 @@ class PersonCsvReaderTest {
         long uniqueDivisions = people.stream().map(Person::getDivision).distinct().count();
         assertEquals(registry.size(), uniqueDivisions);
     }
+
+    @Test
+    void skipsMalformedRows() throws Exception {
+        DivisionRegistry registry = new DivisionRegistry();
+        List<Person> people = new PersonCsvReader(registry).read("people-with-junk.csv");
+        assertEquals(2, people.size());
+    }
 }

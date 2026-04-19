@@ -38,10 +38,25 @@ public class PersonCsvReader {
                 .build()) {
             String[] row;
             while ((row = reader.readNext()) != null) {
+                if (isMalformed(row)) {
+                    continue;
+                }
                 people.add(parseRow(row));
             }
         }
         return people;
+    }
+
+    private boolean isMalformed(String[] row) {
+        if (row.length < 6) {
+            return true;
+        }
+        for (String value : row) {
+            if (value == null || value.trim().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private Person parseRow(String[] row) {
